@@ -17,10 +17,7 @@
 package com.github.bhlangonijr.chesslib;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.github.bhlangonijr.chesslib.move.Move;
 
@@ -100,23 +97,6 @@ public class Constants {
     public static final List<Square> DEFAULT_BLACK_OOO_ALL_SQUARES = new ArrayList<Square>();
 
     /**
-     * The map that returns the Forsyth-Edwards Notation (FEN) symbols by piece.
-     *
-     * @deprecated use {@link Piece#getFenSymbol()} instead
-     */
-    @Deprecated
-    public static final EnumMap<Piece, String> pieceNotation =
-            new EnumMap<Piece, String>(Piece.class);
-    /**
-     * The map that returns a piece by its Forsyth-Edwards Notation (FEN) symbol.
-     *
-     * @deprecated use {@link Piece#fromFenSymbol(String)} instead
-     */
-    @Deprecated
-    public static final Map<String, Piece> pieceNotationR =
-            new HashMap<String, Piece>(12);
-
-    /**
      * A useful special value that represents an empty move, that is, a move that does nothing and leaves the board
      * unchanged.
      */
@@ -144,32 +124,6 @@ public class Constants {
         DEFAULT_BLACK_OOO_ALL_SQUARES.add(Square.D8);
         DEFAULT_BLACK_OOO_ALL_SQUARES.add(Square.C8);
         DEFAULT_BLACK_OOO_ALL_SQUARES.add(Square.B8);
-
-        pieceNotation.put(Piece.WHITE_PAWN, "P");
-        pieceNotation.put(Piece.WHITE_KNIGHT, "N");
-        pieceNotation.put(Piece.WHITE_BISHOP, "B");
-        pieceNotation.put(Piece.WHITE_ROOK, "R");
-        pieceNotation.put(Piece.WHITE_QUEEN, "Q");
-        pieceNotation.put(Piece.WHITE_KING, "K");
-        pieceNotation.put(Piece.BLACK_PAWN, "p");
-        pieceNotation.put(Piece.BLACK_KNIGHT, "n");
-        pieceNotation.put(Piece.BLACK_BISHOP, "b");
-        pieceNotation.put(Piece.BLACK_ROOK, "r");
-        pieceNotation.put(Piece.BLACK_QUEEN, "q");
-        pieceNotation.put(Piece.BLACK_KING, "k");
-
-        pieceNotationR.put("P", Piece.WHITE_PAWN);
-        pieceNotationR.put("N", Piece.WHITE_KNIGHT);
-        pieceNotationR.put("B", Piece.WHITE_BISHOP);
-        pieceNotationR.put("R", Piece.WHITE_ROOK);
-        pieceNotationR.put("Q", Piece.WHITE_QUEEN);
-        pieceNotationR.put("K", Piece.WHITE_KING);
-        pieceNotationR.put("p", Piece.BLACK_PAWN);
-        pieceNotationR.put("n", Piece.BLACK_KNIGHT);
-        pieceNotationR.put("b", Piece.BLACK_BISHOP);
-        pieceNotationR.put("r", Piece.BLACK_ROOK);
-        pieceNotationR.put("q", Piece.BLACK_QUEEN);
-        pieceNotationR.put("k", Piece.BLACK_KING);
     }
 
     private Constants() {

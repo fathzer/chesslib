@@ -18,8 +18,6 @@ package com.github.bhlangonijr.chesslib;
 
 import static com.github.bhlangonijr.chesslib.Constants.emptyMove;
 
-import java.util.EnumMap;
-
 import com.github.bhlangonijr.chesslib.move.Move;
 
 /**
@@ -32,12 +30,12 @@ import com.github.bhlangonijr.chesslib.move.Move;
  */
 public class MoveBackup implements BoardEvent {
 
-    private final EnumMap<Side, CastleRight> castleRight;
+    private final CastleRight[] castleRight;
     private Side sideToMove;
     private Square enPassantTarget;
     private Square enPassant;
-    private Integer moveCounter;
-    private Integer halfMoveCounter;
+    private int moveCounter;
+    private int halfMoveCounter;
     private Move move;
     private Move rookCastleMove;
     private Piece capturedPiece;
@@ -51,7 +49,7 @@ public class MoveBackup implements BoardEvent {
      * Constructs a new empty move backup.
      */
     public MoveBackup() {
-        castleRight = new EnumMap<>(Side.class);
+        castleRight = new CastleRight[2];
     }
 
     /**
@@ -81,8 +79,8 @@ public class MoveBackup implements BoardEvent {
         setMoveCounter(board.getMoveCounter());
         setHalfMoveCounter(board.getHalfMoveCounter());
         setMove(move);
-        getCastleRight().put(Side.WHITE, board.getCastleRight(Side.WHITE));
-        getCastleRight().put(Side.BLACK, board.getCastleRight(Side.BLACK));
+        castleRight[Side.WHITE.ordinal()] = board.getCastleRight(Side.WHITE);
+        castleRight[Side.BLACK.ordinal()] = board.getCastleRight(Side.BLACK);
         setCapturedPiece(board.getPiece(move.getTo()));
         setCapturedSquare(move.getTo());
         Piece moving = board.getPiece(move.getFrom());
@@ -116,8 +114,8 @@ public class MoveBackup implements BoardEvent {
         board.setMoveCounter(getMoveCounter());
         board.setHalfMoveCounter(getHalfMoveCounter());
         Piece movingPiece = move.getPromotion() == Piece.NONE ? getMovingPiece() : move.getPromotion();
-        board.getCastleRight().put(Side.WHITE, getCastleRight().get(Side.WHITE));
-        board.getCastleRight().put(Side.BLACK, getCastleRight().get(Side.BLACK));
+        board.setCastleRight(Side.WHITE, castleRight[Side.WHITE.ordinal()]);
+        board.setCastleRight(Side.BLACK, castleRight[Side.BLACK.ordinal()]);
 
         if (move != emptyMove) {
             final boolean isCastle = board.getContext().isCastleMove(getMove());
@@ -264,15 +262,6 @@ public class MoveBackup implements BoardEvent {
      */
     public void setRookCastleMove(Move rookCastleMove) {
         this.rookCastleMove = rookCastleMove;
-    }
-
-    /**
-     * Returns the castle rights used for restoring the board.
-     *
-     * @return the castle rights
-     */
-    public EnumMap<Side, CastleRight> getCastleRight() {
-        return castleRight;
     }
 
     /**

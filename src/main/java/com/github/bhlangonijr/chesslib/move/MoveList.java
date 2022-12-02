@@ -182,7 +182,7 @@ public class MoveList extends LinkedList<Move> implements List<Move> {
         }
 
 
-        Piece captured = board.getBackup().getLast().getCapturedPiece();
+        Piece captured = board.getBackup().get(board.getBackup().size()-1).getCapturedPiece();
         boolean isCapture = !captured.equals(Piece.NONE);
         if (isCapture) {
             if (!ambResolved &&

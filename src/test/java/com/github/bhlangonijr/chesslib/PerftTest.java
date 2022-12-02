@@ -200,9 +200,7 @@ public class PerftTest {
     public long testPerft(String fen, int depth) throws MoveGeneratorException {
 
         Board board = new Board();
-        board.setEnableEvents(false);
         board.loadFromFen(fen);
-
         return perft(board, depth, 1);
     }
 

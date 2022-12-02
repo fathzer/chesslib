@@ -38,8 +38,8 @@ public class BoardTest {
         assertEquals(Piece.BLACK_ROOK, board.getPiece(Square.H8));
         assertEquals(Piece.WHITE_ROOK, board.getPiece(Square.H1));
 
-        assertEquals(Integer.valueOf(0), board.getHalfMoveCounter());
-        assertEquals(Integer.valueOf(1), board.getMoveCounter());
+        assertEquals(0, board.getHalfMoveCounter());
+        assertEquals(1, board.getMoveCounter());
         assertEquals(Square.E3, board.getEnPassant());
         assertEquals(Square.NONE, board.getEnPassantTarget());
 
@@ -523,7 +523,7 @@ public class BoardTest {
         board.loadFromFen("r1bqk1nr/pppp1ppp/2n5/2b1p3/4P3/5N2/PPPPBPPP/RNBQK2R w KQkq - 0 1");
         assertEquals(CastleRight.KING_AND_QUEEN_SIDE, board.getCastleRight(Side.WHITE));
         board.doMove(new Move(Square.E1, Square.G1)); // castle
-        final MoveBackup moveBackup = board.getBackup().getLast();
+        final MoveBackup moveBackup = board.getBackup().get(board.getBackup().size()-1);
         assertTrue(moveBackup.isCastleMove());
         assertEquals(new Move(Square.H1, Square.F1), moveBackup.getRookCastleMove());
     }
@@ -536,7 +536,7 @@ public class BoardTest {
 
         final Move whiteRookMoveE1G1 = new Move("e1g1", Side.WHITE);
         board.doMove(whiteRookMoveE1G1);
-        final MoveBackup moveBackup = board.getBackup().getLast();
+        final MoveBackup moveBackup = board.getBackup().get(board.getBackup().size());
         assertFalse(moveBackup.isCastleMove());
         assertNull(moveBackup.getRookCastleMove());
     }
