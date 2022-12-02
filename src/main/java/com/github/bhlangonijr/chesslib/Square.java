@@ -16,8 +16,6 @@
 
 package com.github.bhlangonijr.chesslib;
 
-import java.util.EnumMap;
-
 /**
  * All possible squares on a board.
  * <p>
@@ -286,34 +284,18 @@ public enum Square {
      * Special value that represents no square in particular.
      */
     NONE;
+	
+	private long bitboard;
 
     private static final Square[] allSquares = Square.values();
     private static final Rank[] rankValues = Rank.values();
     private static final File[] fileValues = File.values();
-    private static final long[] bitboard = new long[allSquares.length];
-
-    private static final EnumMap<Square, Square[]> sideSquare =
-            new EnumMap<Square, Square[]>(Square.class);
 
     static {
         for (Square sq : allSquares) {
-            bitboard[sq.ordinal()] = 1L << sq.ordinal();
-            if (!Square.NONE.equals(sq)) {
-                Square[] a = null;
-                if (File.FILE_A.equals(sq.getFile())) {
-                    a = new Square[1];
-                    a[0] = encode(sq.getRank(), File.FILE_B);
-                } else if (File.FILE_H.equals(sq.getFile())) {
-                    a = new Square[1];
-                    a[0] = encode(sq.getRank(), File.FILE_G);
-                } else {
-                    a = new Square[2];
-                    a[0] = encode(sq.getRank(), fileValues[sq.getFile().ordinal() - 1]);
-                    a[1] = encode(sq.getRank(), fileValues[sq.getFile().ordinal() + 1]);
-                }
-                sideSquare.put(sq, a);
-            }
+        	sq.bitboard = 1L << sq.ordinal();
         }
+        NONE.bitboard = 0L;
     }
 
     /**
@@ -356,20 +338,6 @@ public enum Square {
     }
 
     /**
-     * Returns the squares on the side of the given square. A square on the side is on the same rank and in adjacent
-     * files. For instance, side squares of {@link Square#D4} are the two adjacent squares on the 4th rank,
-     * {@link Square#C4} and {@link Square#E4}.
-     * <p>
-     * Note that squares on the edge files ({@code A} and {@code H}) have only one side square instead of two (on files
-     * {@code B} and {@code G} respectively).
-     *
-     * @return the side squares of this square
-     */
-    public Square[] getSideSquares() {
-        return sideSquare.get(this);
-    }
-
-    /**
      * Returns the rank of the square.
      *
      * @return the rank of the square
@@ -403,10 +371,7 @@ public enum Square {
      * @return the bitboard representation of this square, as a long value
      */
     public long getBitboard() {
-        if (this == NONE) {
-            return 0L;
-        }
-        return bitboard[this.ordinal()];
+        return this.bitboard;
     }
 
     /**
@@ -417,5 +382,4 @@ public enum Square {
     public boolean isLightSquare() {
         return (getBitboard() & Bitboard.lightSquares) != 0L;
     }
-
 }
